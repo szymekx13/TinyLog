@@ -18,5 +18,8 @@ int main() {
 
     LOG::info("Server started on port %d", 8080);
     LOG::warn("Disk usage at %d%%", 85);
+    LOG::debug("Mouse position: x=%d, y=%d", 150, 300);
+    LOG::trace("Loading module: %s", "graphics.dll");
+    LOG::fatal("Fatal error: %s", "Out of memory");
     return 0;
 }

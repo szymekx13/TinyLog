@@ -19,14 +19,18 @@ namespace LOG {
 
     //ENUM FOR LOG LEVELS
     enum class Level {
+        TRACE,
+        DEBUG,
         INFO,
         WARN,
-        ERROR
+        ERROR,
+        FATAL
     };
 
     //LOG FILE AND MUTEX FOR THREAD SAFETY
     inline std::ofstream logFile;
     inline std::mutex logMutex;
+    inline Level currentLevel = Level::TRACE;
 
     //ANSI COLOR CODES
     inline std::string color_for(Level lvl) {
@@ -34,6 +38,10 @@ namespace LOG {
             case Level::INFO: return "\033[32m"; break; // green
             case Level::WARN: return "\033[33m"; break; // yellow
             case Level::ERROR: return "\033[31m"; break; // red
+            case Level::TRACE: return "\033[95m"; break; // bright magenta
+            case Level::DEBUG: return "\033[36m"; break; // cyan
+            case Level::FATAL: return "\x1b[38;5;1m"; break; // bright red
+                default: return "\033[0m"; // reset
         }
     }
 
@@ -43,6 +51,9 @@ namespace LOG {
             case Level::INFO: return "INFO"; break;
             case Level::WARN: return "WARN"; break;
             case Level::ERROR: return "ERROR"; break;
+            case Level::FATAL: return "FATAL"; break;
+            case Level::TRACE: return "TRACE"; break;
+            case Level::DEBUG: return "DEBUG"; break;
         }
         return "UNKNOWN";
     }
@@ -63,21 +74,21 @@ namespace LOG {
     }
 
     // EASY HELPER FOR FORMATTING STRINGS
-    template <typename T>
-    std::string format(const std::string& fmt, T&& args) {
-        size_t size = std::snprintf(nullptr, 0, fmt.c_str(), args) +1; // Extra space for '\0'
+    template <typename... T>
+    std::string format(const std::string& fmt, T&&... args) {
+        size_t size = std::snprintf(nullptr, 0, fmt.c_str(), std::forward<T>(args)...) +1; // Extra space for '\0'
         std::string result(size, '\0');
-        std::snprintf(&result[0], size, fmt.c_str(), args);
+        std::snprintf(&result[0], size, fmt.c_str(), std::forward<T>(args)...);
         result.pop_back(); // remove the extra null character
         return result;
     }
 
     //CORE LOGGING FUNCTION
-    template <typename T>
-    void log(Level lvl, const std::string& fmt, T&& args) {
+    template <typename... T>
+    void log(Level lvl, const std::string& fmt, T&&... args) {
         auto color = color_for(lvl);
         auto reset = "\033[0m";
-        auto msg = format(fmt, std::forward<T>(args));
+        auto msg = format(fmt, std::forward<T>(args)...);
 
         std::ostringstream line;
         line << "["<< timestamp() << "] "
@@ -109,6 +120,18 @@ namespace LOG {
     template <typename... T>
     void error(const std::string& fmt, T&&... args) {
         log(Level::ERROR, fmt, std::forward<T>(args)...);
+    }
+    template <typename... T>
+    void fatal(const std::string& fmt, T&&... args) {
+        log(Level::FATAL, fmt, std::forward<T>(args)...);
+    }
+    template <typename... T>
+    void trace(const std::string& fmt, T&&... args) {
+        log(Level::TRACE, fmt, std::forward<T>(args)...);
+    }
+    template <typename... T>
+    void debug(const std::string& fmt, T&&... args) {
+        log(Level::DEBUG, fmt, std::forward<T>(args)...);
     }
 
     //INITIALIZE LOGGING TO FILE
