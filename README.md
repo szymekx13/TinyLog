@@ -50,11 +50,33 @@ Example executable will be placed in build/examples/.
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
+## 💻 Dependencis
+- C++23 compatible editor (but C++11 should also work)
+- CMake 3.10 or higher
+- A C++ compiler that supports C++23 (like GCC, Clang, MSVC)
+- No external dependencies
+- Operating System: Cross-platform (Windows, Linux, macOS)
+---
 ## 🧠 TODO
 
 - Add custom log levels
 - Add configuration file support
 - Add rotating file logs
+
+---
+## 📚 API Reference
+### `void LOG::init(const std::string &filename = "log.txt");`
+Initializes the logger. If a filename is provided, logs will be written to that file.
+### `template<typename... Args> void log::info(const std::string& fmt, Args&&... args)`
+Logs an informational message
+
+
+### `template<typename... Args> void log::warn(const std::string& fmt, Args&&... args)`
+Log a warning message
+
+
+### `template<typename... Args> void log::error(const std::string& fmt, Args&&... args)`
+Log an error message
 
 ---
 ## 💡 Author
