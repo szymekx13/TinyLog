@@ -13,40 +13,57 @@ TinyLog provides a simple interface for logging messages with different severity
 
 ## 🚀 Features
 
-- 📜 Simple and clean API
+- 📜 Simple and intuitive API
 - 🧵 Thread-safe logging
-- 🖥️ Console and file logging
-- 🎨 Colored console output
-- 🕒 Automatic timestamping
+- 🖥️ Console and file output
+- 🎨 Colored console messages
+- 🕒 Automatic timestamps
+- ⚙️ **Configuration file support (`config.json`)**
+- 🧩 Cross-platform (Windows, Linux, macOS)
+
+---
+## ⚙️ Configuration File (`config.json`)
+TinyLog automatically looks for a file named **`config.json`** in the working directory.  
+If it doesn't exist, a default configuration is created automatically.
+
+Example `config.json`:
+```json
+{
+  "log_file": "logs.txt",
+  "min_level": "INFO",
+  "color": true,
+  "timestamp": true
+}
+```
 
 ---
 ## 📚 API Reference
 ### `void LOG::init(const std::string &filename = "log.txt");`
 Initializes the logger. If a filename is provided, logs will be written to that file.
-### `template<typename... Args> void log::info(const std::string& fmt, Args&&... args)`
+### `void log::info(const std::string& fmt, Args&&... args)`
 Logs an informational message
 
-
-### `template<typename... Args> void log::warn(const std::string& fmt, Args&&... args)`
+### `void LOG::warn(const std::string& fmt, Args&&... args)`
 Log a warning message
 
-### `template<typename... Args> void log::error(const std::string& fmt, Args&&... args)`
+### `void LOG::error(const std::string& fmt, Args&&... args)`
 Log an error message
 
-### `    template <typename... T> void trace(const std::string& fmt, T&&... args)`
+### `void LOG::trace(const std::string& fmt, T&&... args)`
 Log a trace message
 
-### `    template <typename... T> void debug(const std::string& fmt, T&&... args)`
+### `void LOG::debug(const std::string& fmt, T&&... args)`
 Log a debug message
 
-### `    template <typename... T> void fatal(const std::string& fmt, T&&... args)`
+### `void LOG::fatal(const std::string& fmt, T&&... args)`
 Log a fatal message and terminate the program
 
-### `template<typename... T> void LOG::fatal(const std::string& fmt, T&&... args)`
+### `void LOG::fatal(const std::string& fmt, T&&... args)`
 Log a fatal message and throws a `std::runtime_error` exception
 - Do not use `std::exit()` here, exceptions allows the user to handle cleanup
 - Use the `LOG_FATAL` macro for automatic inclusion of line number and function name
-  Example:
+
+## Example usage of LOG_FATAL macro:
 ```cpp
 try{
     LOG_FATAL("Unable to connect to database: %s", "Connection timed out");
@@ -54,23 +71,27 @@ try{
     std::cerr << e.what() << std::endl;
 }
 ```
+DISCLAIMER: Every log functions have `template<typename... T>` so you can use `printf` style formatting.
 
 ## 📦 Example usage
 
-````cpp
-#include "tinylog.hpp"
+```cpp
+#include "../include/tinylog.hpp"
 
 int main(){
     log::init("logs.txt"); //Initialize the logger, by deafult log.txt will be
     //created in the working directory, but you can specify a different path and name
+    //also genarate config.json file with default settings
     
     log::info("This is an info message");
     log::warning("This is a warning message");
     log::error("This is an error message");
 }
-````
+```
+If no `config.json` file found TinyLog automatically creates one with default settings.
 
 ---
+
 ## 🧰 Building
 ```bahs
 git clone https://github.com/<your-username>/tinylog.git
@@ -84,16 +105,13 @@ Example executable will be placed in build/examples/.
 ## 💻 Dependencies
 - C++23 compatible editor (but C++11 should also work)
 - CMake 3.10 or higher
-- A C++ compiler that supports C++23 (like GCC, Clang, MSVC)
 - No external dependencies
-- Operating System: Cross-platform (Windows, Linux, macOS)
 
 ---
 
 ## 🧠 TODO
 
 - Add custom log levels
-- Add configuration file support
 - Add rotating file logs
 ---
 
