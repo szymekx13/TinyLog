@@ -27,11 +27,12 @@ namespace LOG {
         ERROR,
         FATAL
     };
-
     //LOG FILE AND MUTEX FOR THREAD SAFETY
-    inline std::ofstream logFile;
-    inline std::mutex logMutex;
-    inline Level currentLevel = Level::TRACE;
+    extern  std::ofstream logFile;
+    extern  std::mutex logMutex;
+    extern  Level currentLevel;
+    extern bool useColor;
+    extern bool useTimestamp;
 
     //ANSI COLOR CODES
     inline std::string color_for(Level lvl) {
@@ -57,6 +58,14 @@ namespace LOG {
             case Level::DEBUG: return "DEBUG"; break;
         }
         return "UNKNOWN";
+    }
+
+    //helper function to use colors in [TinyLog] messages
+    inline void printSystemMsg(const std::string& msg) {
+        const std::string white = "\033[97m";
+        const std::string cyan = "\033[36m";
+        const std::string reset = "\033[0m";
+        std::cout << white << "[" << cyan << "TinyLog" << white << "] "<< reset << msg << std::endl;
     }
 
     //GET CURRENT TIMESTAMP
@@ -141,12 +150,14 @@ namespace LOG {
     void debug(const std::string& fmt, T&&... args) {
         log(Level::DEBUG, fmt, std::forward<T>(args)...);
     }
-
-    //INITIALIZE LOGGING TO FILE
-    inline void init(const std::string& filename = "log.txt") {
-        logFile.open(filename, std::ios_base::app); //append mode, adding to existing logs
-        if (!logFile.is_open()) {
-            std::cerr << "Failed to open file " << filename << std::endl;
-        }
+    //TRIM WHITESPACES
+    static std::string trim(const std::string& s) {
+        auto start = s.find_first_not_of("\t\n\r");
+        auto end = s.find_last_not_of("\t\n\r");
+        return (start == std::string::npos) ? "" : s.substr(start, end - start + 1);
     }
+    //INITIALIZE LOGGING TO FILE
+    void init(const std::string& filename = "log.txt");
+    void loadConfig(const std::string& path = "config.json");
+
 }

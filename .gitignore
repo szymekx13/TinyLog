@@ -2,3 +2,7 @@
 cmake-build-debug
 cmake-build-release
 build
+file.txt
+log.txt
+log_exe.exe
+config.json
