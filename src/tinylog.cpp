@@ -6,5 +6,4 @@
  */
 
 #include "../include/tinylog.hpp"
-
 #include <iostream>

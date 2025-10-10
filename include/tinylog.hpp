@@ -15,7 +15,7 @@
 #include <fstream>
 #include <mutex>
 
-namespace log {
+namespace LOG {
 
     //ENUM FOR LOG LEVELS
     enum class Level {
@@ -98,17 +98,17 @@ namespace log {
     }
 
     //LOGGING FUNCTIONS
-    template <typename T>
-    void info(const std::string& fmt, T&& args) {
-        log(Level::INFO, fmt, std::forward<T>(args));
+    template <typename... T>
+    void info(const std::string& fmt, T&&... args) {
+        log(Level::INFO, fmt, std::forward<T>(args)...);
     }
-    template <typename T>
-    void warn(const std::string& fmt, T&& args) {
-        log(Level::WARN, fmt, std::forward<T>(args));
+    template <typename... T>
+    void warn(const std::string& fmt, T&&... args) {
+        log(Level::WARN, fmt, std::forward<T>(args)...);
     }
-    template <typename T>
-    void error(const std::string& fmt, T&& args) {
-        log(Level::ERROR, fmt, std::forward<T>(args));
+    template <typename... T>
+    void error(const std::string& fmt, T&&... args) {
+        log(Level::ERROR, fmt, std::forward<T>(args)...);
     }
 
     //INITIALIZE LOGGING TO FILE
