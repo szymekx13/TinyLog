@@ -74,10 +74,30 @@ Logs an informational message
 ### `template<typename... Args> void log::warn(const std::string& fmt, Args&&... args)`
 Log a warning message
 
-
 ### `template<typename... Args> void log::error(const std::string& fmt, Args&&... args)`
 Log an error message
 
+### `    template <typename... T> void trace(const std::string& fmt, T&&... args)`
+Log a trace message
+
+### `    template <typename... T> void debug(const std::string& fmt, T&&... args)`
+Log a debug message
+
+### `    template <typename... T> void fatal(const std::string& fmt, T&&... args)`
+Log a fatal message and terminate the program
+
+### `template<typename... T> void LOG::fatal(const std::string& fmt, T&&... args)`
+Log a fatal message and throws a `std::runtime_error` exception
+- Do not use `std::exit()` here, exceptions allows the user to handle cleanup
+- Use the `LOG_FATAL` macro for automatic inclusion of line number and function name
+Example:
+```cpp
+try{
+    LOG_FATAL("Unable to connect to database: %s", "Connection timed out");
+}catch(const std::runtime_error& e){
+    std::cerr << e.what() << std::endl;
+}
+```
 ---
 ## 💡 Author
 Created with ❤️ by [Szymon Niedbała](https://github.com/szymekx13)

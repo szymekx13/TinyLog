@@ -20,6 +20,13 @@ int main() {
     LOG::warn("Disk usage at %d%%", 85);
     LOG::debug("Mouse position: x=%d, y=%d", 150, 300);
     LOG::trace("Loading module: %s", "graphics.dll");
-    LOG::fatal("Fatal error: %s", "Out of memory");
+
+    try {
+        // simulate a fatal error
+        LOG_FATAL("Unable to connect to database: %s", "Connection timed out");
+    }catch (const std::runtime_error& e) {
+        std::cerr<< e.what() << std::endl;
+        return EXIT_FAILURE;
+    }
     return 0;
 }

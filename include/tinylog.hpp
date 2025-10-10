@@ -14,6 +14,7 @@
 #include <sstream>
 #include <fstream>
 #include <mutex>
+#include <stdexcept>
 
 namespace LOG {
 
@@ -108,6 +109,17 @@ namespace LOG {
         }
     }
 
+    // Funkcja pomocnicza dla błędów krytycznych z numerem wiersza i nazwą funkcji
+    template <typename... T>
+    void fatal_impl(const std::string& fmt, int line, const char* func, T&&... args) {
+        std::string new_fmt = fmt + " [at line %d in %s]";
+        log(Level::FATAL, new_fmt, std::forward<T>(args)..., line, func);
+        throw std::runtime_error("Error: Fatal error occurred. Check logs for details.");
+    }
+
+    // The macro passes the line number and the function name as the 2nd and 3rd arguments
+    #define LOG_FATAL(fmt, ...) LOG::fatal_impl(fmt, __LINE__, __func__, ##__VA_ARGS__)
+
     //LOGGING FUNCTIONS
     template <typename... T>
     void info(const std::string& fmt, T&&... args) {
@@ -120,10 +132,6 @@ namespace LOG {
     template <typename... T>
     void error(const std::string& fmt, T&&... args) {
         log(Level::ERROR, fmt, std::forward<T>(args)...);
-    }
-    template <typename... T>
-    void fatal(const std::string& fmt, T&&... args) {
-        log(Level::FATAL, fmt, std::forward<T>(args)...);
     }
     template <typename... T>
     void trace(const std::string& fmt, T&&... args) {
