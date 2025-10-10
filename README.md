@@ -1,4 +1,5 @@
-# 🪶 TinyLog
+
+![TinyLog](https://socialify.git.ci/szymekx13/TinyLog/image?description=1&issues=1&language=1&name=1&theme=Dark)
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Language](https://img.shields.io/badge/language-C%2B%2B23-orange)
@@ -17,51 +18,6 @@ TinyLog provides a simple interface for logging messages with different severity
 - 🖥️ Console and file logging
 - 🎨 Colored console output
 - 🕒 Automatic timestamping
-
----
-
-## 📦 Example usage
-
-````cpp
-#include "tinylog.hpp"
-
-int main(){
-    log::init("logs.txt"); //Initialize the logger, by deafult log.txt will be
-    //created in the working directory, but you can specify a different path and name
-    
-    log::info("This is an info message");
-    log::warning("This is a warning message");
-    log::error("This is an error message");
-}
-````
-
----
-## 🧰 Building
-```bahs
-git clone https://github.com/<your-username>/tinylog.git
-cd tinylog
-cmake -B build
-cmake --build build
-```
-Example executable will be placed in build/examples/.
-
----
-## 📄 License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-## 💻 Dependencis
-- C++23 compatible editor (but C++11 should also work)
-- CMake 3.10 or higher
-- A C++ compiler that supports C++23 (like GCC, Clang, MSVC)
-- No external dependencies
-- Operating System: Cross-platform (Windows, Linux, macOS)
----
-## 🧠 TODO
-
-- Add custom log levels
-- Add configuration file support
-- Add rotating file logs
 
 ---
 ## 📚 API Reference
@@ -90,7 +46,7 @@ Log a fatal message and terminate the program
 Log a fatal message and throws a `std::runtime_error` exception
 - Do not use `std::exit()` here, exceptions allows the user to handle cleanup
 - Use the `LOG_FATAL` macro for automatic inclusion of line number and function name
-Example:
+  Example:
 ```cpp
 try{
     LOG_FATAL("Unable to connect to database: %s", "Connection timed out");
@@ -98,6 +54,52 @@ try{
     std::cerr << e.what() << std::endl;
 }
 ```
+
+## 📦 Example usage
+
+````cpp
+#include "tinylog.hpp"
+
+int main(){
+    log::init("logs.txt"); //Initialize the logger, by deafult log.txt will be
+    //created in the working directory, but you can specify a different path and name
+    
+    log::info("This is an info message");
+    log::warning("This is a warning message");
+    log::error("This is an error message");
+}
+````
+
+---
+## 🧰 Building
+```bahs
+git clone https://github.com/<your-username>/tinylog.git
+cd tinylog
+cmake -B build
+cmake --build build
+```
+Example executable will be placed in build/examples/.
+
+---
+## 💻 Dependencies
+- C++23 compatible editor (but C++11 should also work)
+- CMake 3.10 or higher
+- A C++ compiler that supports C++23 (like GCC, Clang, MSVC)
+- No external dependencies
+- Operating System: Cross-platform (Windows, Linux, macOS)
+
+---
+
+## 🧠 TODO
+
+- Add custom log levels
+- Add configuration file support
+- Add rotating file logs
+---
+
+## 📄 License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
 ---
 ## 💡 Author
 Created with ❤️ by [Szymon Niedbała](https://github.com/szymekx13)
