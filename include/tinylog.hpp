@@ -127,7 +127,7 @@ namespace LOG {
     }
 
     // The macro passes the line number and the function name as the 2nd and 3rd arguments
-    #define LOG_FATAL(fmt, ...) LOG::fatal_impl(fmt, __LINE__, __func__, ##__VA_ARGS__)
+
 
     //LOGGING FUNCTIONS
     template <typename... T>
@@ -161,3 +161,10 @@ namespace LOG {
     void loadConfig(const std::string& path = "config.json");
 
 }
+
+#define LOG_FATAL(fmt, ...) LOG::fatal_impl(fmt, __LINE__, __func__, ##__VA_ARGS__)
+#define LOG_INFO(fmt, ...) LOG::info(fmt, ##__VA_ARGS__)
+#define LOG_WARN(fmt, ...) LOG::warn(fmt, ##__VA_ARGS__)
+#define LOG_ERROR(fmt, ...) LOG::error(fmt, ##__VA_ARGS__)
+#define LOG_DEBUG(fmt, ...) LOG::debug(fmt, ##__VA_ARGS__)
+#define LOG_TRACE(fmt, ...) LOG::trace(fmt, ##__VA_ARGS__)

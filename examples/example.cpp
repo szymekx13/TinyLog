@@ -16,10 +16,11 @@ int main() {
         return 1;
     }
 
-    LOG::info("Server started on port %d", 8080);
-    LOG::warn("Disk usage at %d%%", 85);
-    LOG::debug("Mouse position: x=%d, y=%d", 150, 300);
-    LOG::trace("Loading module: %s", "graphics.dll");
+    LOG::info("Server started on port %d", 8080); // or with macro LOG_INFO("Server started on port %d", 8080);
+    LOG::warn("Disk usage at %d%%", 85); // or with macro LOG_WARN("Disk usage at %d%%", 85);
+    LOG::debug("Mouse position: x=%d, y=%d", 150, 300); // or with macro LOG_DEBUG("Mouse position: x=%d, y=%d", 150, 300);
+    LOG::trace("Loading module: %s", "graphics.dll"); // or with macro LOG_TRACE("Loading module: %s", "graphics.dll");
+    LOG_ERROR("Failed to load module"); // using macro
 
     try {
         // simulate a fatal error

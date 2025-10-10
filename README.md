@@ -71,7 +71,7 @@ try{
     std::cerr << e.what() << std::endl;
 }
 ```
-DISCLAIMER: Every log functions have `template<typename... T>` so you can use `printf` style formatting.
+**DISCLAIMER**: Every LOG functions have `template<typename... T>` so you can use `printf` style formatting.
 
 ## 📦 Example usage
 
