@@ -71,7 +71,13 @@ try{
     std::cerr << e.what() << std::endl;
 }
 ```
-**DISCLAIMER**: Every LOG functions have `template<typename... T>` so you can use `printf` style formatting.
+> **🛈 Disclaimer**  
+> Every `LOG` function is templated as `template<typename... T>`,  
+> which means you can use **printf-style formatting** directly:
+> ```cpp
+> LOG::info("User {} logged in from IP {}", username, ip);
+> ```
+> (No need for `std::format` or `fmt::format`!)
 
 ## 📦 Example usage
 

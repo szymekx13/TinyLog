@@ -47,6 +47,9 @@ namespace LOG {
         }
     }
 
+    void rotate_logs();
+    void set_max_file_size(size_t bytes);
+    void set_max_backup_files(int count);
     //LOG LEVEL NAMES
     inline std::string level_name(Level lvl) {
         switch (lvl) {
@@ -157,7 +160,7 @@ namespace LOG {
         return (start == std::string::npos) ? "" : s.substr(start, end - start + 1);
     }
     //INITIALIZE LOGGING TO FILE
-    void init(const std::string& filename = "log.txt");
+    void init(const std::string& fname = "log.txt");
     void loadConfig(const std::string& path = "config.json");
 
 }
