@@ -10,7 +10,7 @@
 
 int main() {
     LOG::init();
-    std::ofstream file("file.txt", std::ios::app);
+    std::ofstream file("file", std::ios::app);
     if (!file.is_open()) {
         LOG::error("Failed to open file: %s", "file.txt");
         return 1;
@@ -21,6 +21,12 @@ int main() {
     LOG::debug("Mouse position: x=%d, y=%d", 150, 300); // or with macro LOG_DEBUG("Mouse position: x=%d, y=%d", 150, 300);
     LOG::trace("Loading module: %s", "graphics.dll"); // or with macro LOG_TRACE("Loading module: %s", "graphics.dll");
     LOG_ERROR("Failed to load module"); // using macro
+
+    for (int i = 0; i <= 100; i++) {
+        LOG_INFO("Test log %x", i);
+    }
+
+    LOG::rotate_logs();
 
     try {
         // simulate a fatal error

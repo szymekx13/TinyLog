@@ -21,7 +21,7 @@ namespace LOG {
     bool useTimestamp = true;
     namespace {
         std::string filename = "log.txt";
-        size_t maxFileSize = 5 * 1024 * 1024; // 5 MB
+        size_t maxFileSize = 50 * 1024; // 5 MB
         int maxBackupFiles = 5;
     }
 
@@ -37,18 +37,18 @@ namespace LOG {
         if (!fs::exists(filename)) {
             return;
         }
+        // close the file before rotation
+        if (logFile.is_open()) {
+            logFile.close();
+        }
         auto size = fs::file_size(filename);
         if (size < maxFileSize) {
+            logFile.open(filename, std::ios_base::app);
             return;
         }
         auto stem = fs::path(filename).stem().string();
         auto ext = fs::path(filename).extension().string();
 
-        //delete oldest log if exist
-        auto oldest = stem + "_" + std::to_string(maxBackupFiles) + ext;
-        if (fs::exists(oldest)) {
-            fs::remove(oldest);
-        }
         for (int i = maxBackupFiles - 1; i>=1; --i) {
             auto OldName = stem + "_" + std::to_string(i) + ext;
             auto NewName = stem + "_" + std::to_string(i+1) + ext;
@@ -58,6 +58,7 @@ namespace LOG {
         }
         //
         fs::rename(filename, stem + "_1" + ext);
+        logFile.open(filename, std::ios_base::app);
     }
 
     void init(const std::string &fname) {
