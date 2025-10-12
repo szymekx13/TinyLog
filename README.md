@@ -59,6 +59,14 @@ Sets the maximum size of files, after reaching limit new file will be created
 Rotates the log files when the main log file exceeds the configured maximum size (`maxFileSize`).  
 Older log files are renamed with incremental suffixes (`_1`, `_2`, ...), and the oldest log beyond the limit (`maxBackupFiles`) is deleted.
 
+### `inline void set_console_level(Level lvl)`
+Sets the minimum log level for console output.  
+Logs with a lower level than `lvl` will be ignored in the console.
+
+### `inline void set_file_level(Level lvl)`
+Sets the minimum log level for file output (`log.txt`).  
+Logs with a lower level than `lvl` will not be written to the file.
+
 ## Example usage of LOG_FATAL macro:
 ```cpp
 try{

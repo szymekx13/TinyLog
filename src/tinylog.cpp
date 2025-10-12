@@ -19,6 +19,8 @@ namespace LOG {
     Level currentLevel = Level::TRACE;
     bool useColor = true;
     bool useTimestamp = true;
+    Level consoleLevel = Level::TRACE;
+    Level fileLevel = Level::INFO;
     namespace {
         std::string filename = "log.txt";
         size_t maxFileSize = 50 * 1024; // 5 MB

@@ -33,7 +33,16 @@ namespace LOG {
     extern  Level currentLevel;
     extern bool useColor;
     extern bool useTimestamp;
+    extern Level consoleLevel;
+    extern Level fileLevel;
 
+
+    inline void set_console_level(Level lvl) {
+        consoleLevel = lvl;
+    }
+    inline void set_file_level(Level lvl) {
+        fileLevel = lvl;
+    }
     //ANSI COLOR CODES
     inline std::string color_for(Level lvl) {
         switch (lvl) {
@@ -111,12 +120,16 @@ namespace LOG {
         //Log to console and file
         {
             std::lock_guard<std::mutex> lock(logMutex);
-            std::cout << color << line.str() << reset << std::endl;
 
-            //log to file if initialized
-            if (logFile.is_open()) {
-                logFile << line.str();
-                logFile.flush();
+            if (lvl >= consoleLevel) {
+                std::cout << color << line.str() << reset << std::endl;
+            }
+            if (lvl >= fileLevel) {
+                //log to file if initialized
+                if (logFile.is_open()) {
+                    logFile << line.str();
+                    logFile.flush();
+                }
             }
         }
     }
