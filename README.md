@@ -18,7 +18,6 @@ TinyLog provides a simple interface for logging messages with different severity
 - 🖥️ Console and file output
 - 🎨 Colored console messages
 - 🕒 Automatic timestamps
-- ⚙️ **Configuration file support (`config.json`)**
 - 🧩 Cross-platform (Windows, Linux, macOS)
 
 ---
@@ -97,9 +96,6 @@ int main(){
     log::warning("This is a warning message");
     log::error("This is an error message");
 }
-```
-If no `config.json` file found TinyLog automatically creates one with default settings.
-
 ---
 
 ## 🧰 Building
@@ -122,7 +118,6 @@ Example executable will be placed in build/examples/.
 ## 🧠 TODO
 
 - Add custom log levels
-- Add rotating file logs
 ---
 
 ## 📄 License
