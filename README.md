@@ -24,7 +24,7 @@ TinyLog provides a simple interface for logging messages with different severity
 ## 📚 API Reference
 ### `void LOG::init(const std::string &filename = "log.txt");`
 Initializes the logger. If a filename is provided, logs will be written to that file.
-### `void log::info(const std::string& fmt, Args&&... args)`
+### `void LOG::info(const std::string& fmt, Args&&... args)`
 Logs an informational message
 
 ### `void LOG::warn(const std::string& fmt, Args&&... args)`
@@ -38,9 +38,6 @@ Log a trace message
 
 ### `void LOG::debug(const std::string& fmt, T&&... args)`
 Log a debug message
-
-### `void LOG::fatal(const std::string& fmt, T&&... args)`
-Log a fatal message and terminate the program
 
 ### `void LOG::fatal(const std::string& fmt, T&&... args)`
 Log a fatal message and throws a `std::runtime_error` exception
@@ -88,13 +85,13 @@ try{
 #include "../include/tinylog.hpp"
 
 int main(){
-    log::init("logs.txt"); //Initialize the logger, by deafult log.txt will be
+    LOG::init("logs.txt"); //Initialize the logger, by deafult log.txt will be
     //created in the working directory, but you can specify a different path and name
     //also genarate config.json file with default settings
     
-    log::info("This is an info message");
-    log::warning("This is a warning message");
-    log::error("This is an error message");
+    LOG::info("This is an info message");
+    LOG::warn("This is a warning message");
+    LOG::error("This is an error message");
 }
 ---
 
@@ -109,15 +106,10 @@ Example executable will be placed in build/examples/.
 
 ---
 ## 💻 Dependencies
-- C++23 compatible editor (but C++11 should also work)
+- C++23 compatible compiler
 - CMake 3.10 or higher
 - No external dependencies
 
----
-
-## 🧠 TODO
-
-- Add custom log levels
 ---
 
 ## 📄 License
